@@ -1,14 +1,11 @@
-import { UserActions, UserActionsTypes, UserLoggedIn } from '../actions/user.actions';
-import { User } from '../models/user';
+import { UserActions, UserActionsTypes } from '../actions/user.actions';
 
 export interface UserState {
-  currentUser?: User;
-  users: User[];
+  currentUserToken?: string;
 }
 
 const initialState: UserState = {
-  currentUser: null,
-  users: [],
+  currentUserToken: null
 };
 
 export function reducer(state = initialState, action: UserActionsTypes): UserState {
@@ -16,14 +13,7 @@ export function reducer(state = initialState, action: UserActionsTypes): UserSta
     case UserActions.LoggedIn: {
       return {
         ...state,
-        currentUser: action.user,
-      };
-    }
-
-    case UserActions.AllUsersLoaded: {
-      return {
-        ...state,
-        users: [...action.users],
+        currentUserToken: action.token,
       };
     }
 
