@@ -9,11 +9,11 @@ import { User } from '../models/user';
 export class UserService {
   constructor(private http: HttpClient) { }
 
-  public login(username: string, password: string): Observable<User> {
-    return this.http.post<User>(UserEndpoint.AUTH, {username: username, password: password});
+  public register(user: User): Observable<{registered: Boolean, token: string}> {
+    return this.http.post<{registered: Boolean, token: string}>(UserEndpoint.REGISTER, { user: user });
   }
 
-  public getAllUsers(): Observable<User[]> {
-    return this.http.get<User[]>(UserEndpoint.GET_ALL_USERS);
+  public unregister(token: string): Observable<Boolean> {
+    return this.http.delete<Boolean>(UserEndpoint.UNREGISTER, { params: { userToken: token } });
   }
 }

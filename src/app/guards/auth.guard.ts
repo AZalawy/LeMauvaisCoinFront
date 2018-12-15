@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
+import { share } from 'rxjs/operators';
 
-import { UserFacade } from '../facades/user.facade';
-import { User } from '../models/user';
+import { AuthFacade } from '../facades/auth.facade';
 
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
-  constructor(private router: Router, private userFacade: UserFacade) {}
+  constructor(private router: Router, private authFacade: AuthFacade) {}
 
   canActivate() {
-    let currentUser: User = null;
-    this.userFacade.currentUser$.subscribe(user => currentUser = user);
+    let currentUserToken = null;
+    this.authFacade.currentUserToken$.subscribe(token => currentUserToken = token);
 
-    if (currentUser && currentUser.id) {
+    if (currentUserToken !== null) {
       return true;
     }
 

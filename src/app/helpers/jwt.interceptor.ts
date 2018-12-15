@@ -2,21 +2,21 @@ import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/c
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { UserFacade } from '../facades/user.facade';
+import { AuthFacade } from '../facades/auth.facade';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
-  constructor(private userFacade: UserFacade) { }
+  constructor(private authFacade: AuthFacade) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // add authorization header with jwt token if available
-    let currentUser = null;
-    this.userFacade.currentUser$.subscribe(user => currentUser = user);
+    let currentUserToken = '';
+    this.authFacade.currentUserToken$.subscribe(token => currentUserToken = token);
 
-    if (currentUser && currentUser.token) {
+    if (currentUserToken !== '') {
       request = request.clone({
         setHeaders: {
-          Authorization: `Bearer ${currentUser.token}`
+          Authorization: `Bearer ${currentUserToken}`
         }
       });
     }

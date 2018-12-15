@@ -10,11 +10,11 @@ import { User } from '../models/user';
 export class FakeBackendInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const users: User[] = [
-      { id: 1, username: 'test', password: 'test', firstName: 'Test', lastName: 'User' },
-      { id: 2, username: 'test2', password: 'test2', firstName: 'Test2', lastName: 'User2' },
-      { id: 3, username: 'test3', password: 'test3', firstName: 'Test3', lastName: 'User3' },
-      { id: 4, username: 'test4', password: 'test4', firstName: 'Test4', lastName: 'User4' },
-      { id: 5, username: 'test5', password: 'test5', firstName: 'Test5', lastName: 'User5' },
+      { id: 1, username: 'test', password: 'test', firstName: 'Test', lastName: 'User', email: 'User1@plop.fr' },
+      { id: 2, username: 'test2', password: 'test2', firstName: 'Test2', lastName: 'User2', email: 'User2@plop.fr' },
+      { id: 3, username: 'test3', password: 'test3', firstName: 'Test3', lastName: 'User3', email: 'User3@plop.fr' },
+      { id: 4, username: 'test4', password: 'test4', firstName: 'Test4', lastName: 'User4', email: 'User4@plop.fr' },
+      { id: 5, username: 'test5', password: 'test5', firstName: 'Test5', lastName: 'User5', email: 'User5@plop.fr' },
     ];
 
     const authHeader = request.headers.get('Authorization');
@@ -35,8 +35,29 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           username: user.username,
           firstName: user.firstName,
           lastName: user.lastName,
-          token: `fake-jwt-token`,
+          token: 'fake-jwt-token',
         });
+      }
+
+      if (request.url.endsWith(UserEndpoint.REGISTER) && request.method === 'POST') {
+        const len = users.length + 1;
+        const user = request.body.user as User;
+        let res = false;
+
+        if (!users.find(u => u.username === 'biscuit')) {
+          users.push({
+            id: len,
+            username: user.username,
+            password: user.password,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+          });
+
+          res = true;
+        }
+
+        return ok({ registered: res, token: 'fake-jwt-token' });
       }
 
       // get all users

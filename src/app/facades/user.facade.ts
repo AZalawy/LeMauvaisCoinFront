@@ -1,23 +1,18 @@
 import { Injectable } from '@angular/core';
-import { createFeatureSelector, Store } from '@ngrx/store';
-import { map } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
 
-import { UserAuth, UserLogout } from '../actions/user.actions';
-import { UserState } from '../reducers/user.reducer';
+import { Register, Unregister } from '../actions/user.actions';
+import { User } from '../models/user';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class UserFacade {
-  public stateSelector = createFeatureSelector<UserState>('user');
+  public constructor(private store: Store<any>) {}
 
-  public currentUserToken$ = this.store.select(this.stateSelector).pipe(map(state => state.currentUserToken));
-
-  public constructor(private store: Store<UserState>) {}
-
-  public login(username: string, password: string): void {
-    this.store.dispatch(new UserAuth(username, password));
+  public register(user: User): void {
+    this.store.dispatch(new Register(user));
   }
 
-  public logout(): void {
-    this.store.dispatch(new UserLogout());
+  public unregister(): void {
+    this.store.dispatch(new Unregister());
   }
 }

@@ -1,25 +1,20 @@
 import { Action } from '@ngrx/store';
 
+import { User } from '../models/user';
+
 export enum UserActions {
-  Auth = '[User] Authenticate',
-  LoggedIn = '[User] Logged in',
-  Logout = '[User] Logout',
+  Register = '[User] Register',
+  Unregister = '[User] Unregister',
 }
 
-export class UserAuth implements Action {
-  public readonly type = UserActions.Auth;
+export class Register implements Action {
+  public readonly type = UserActions.Register;
 
-  public constructor(public readonly username: string, public readonly password: string) {}
+  public constructor(public readonly user: User) {}
 }
 
-export class UserLoggedIn implements Action {
-  public readonly type = UserActions.LoggedIn;
-
-  public constructor(public readonly token: string) {}
+export class Unregister implements Action {
+  public readonly type = UserActions.Unregister;
 }
 
-export class UserLogout implements Action {
-  public readonly type = UserActions.Logout;
-}
-
-export type UserActionsTypes = UserAuth | UserLoggedIn | UserLogout;
+export type UserActionsTypes = Register | Unregister;

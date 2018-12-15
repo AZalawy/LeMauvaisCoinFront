@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { UserFacade } from '../../facades/user.facade';
+import { AuthFacade } from '../../facades/auth.facade';
 
 @Component({
   selector: 'app-login',
@@ -13,14 +13,14 @@ export class LoginComponent {
   loading = false;
   submitted = false;
 
-  constructor(formBuilder: FormBuilder, private userFacade: UserFacade) {
+  constructor(formBuilder: FormBuilder, private authFacade: AuthFacade) {
     this.loginForm = formBuilder.group({
       username: ['', Validators.required],
-      password: ['', Validators.required]
+      password: ['', Validators.required],
     });
 
     // reset login status
-    userFacade.logout();
+    authFacade.logout();
   }
 
   get formControls() {
@@ -36,6 +36,9 @@ export class LoginComponent {
     }
 
     this.loading = true;
-    this.userFacade.login(this.formControls.username.value, this.formControls.password.value);
+    this.authFacade.login(
+      this.formControls.username.value,
+      this.formControls.password.value
+    );
   }
 }
