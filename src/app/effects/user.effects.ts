@@ -14,7 +14,7 @@ export class UserEffects {
   public registerUser$ = this.actions$.pipe(
     ofType<Register>(UserActions.Register),
     switchMap(action => this.userService.register(action.user)),
-    map(({registered, token}) => {
+    map(({ registered, token }) => {
       if (registered) {
         this.router.navigate(['/home']);
         return new LoggedIn(token);
@@ -35,5 +35,10 @@ export class UserEffects {
     })
   );
 
-  public constructor(private actions$: Actions, private router: Router, private userService: UserService, private authFacade: AuthFacade) {}
+  public constructor(
+    private actions$: Actions,
+    private router: Router,
+    private userService: UserService,
+    private authFacade: AuthFacade
+  ) {}
 }

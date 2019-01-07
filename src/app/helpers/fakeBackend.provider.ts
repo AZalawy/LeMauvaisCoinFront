@@ -9,7 +9,7 @@ import { User } from '../models/user';
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const users: User[] = [
+    let users: User[] = [
       { id: 1, username: 'test', password: 'test', firstName: 'Test', lastName: 'User', email: 'User1@plop.fr' },
       { id: 2, username: 'test2', password: 'test2', firstName: 'Test2', lastName: 'User2', email: 'User2@plop.fr' },
       { id: 3, username: 'test3', password: 'test3', firstName: 'Test3', lastName: 'User3', email: 'User3@plop.fr' },
@@ -44,7 +44,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         const user = request.body.user as User;
         let res = false;
 
-        if (!users.find(u => u.username === 'biscuit')) {
+        if (!users.find(u => u.username === user.username)) {
           users.push({
             id: len,
             username: user.username,
@@ -58,6 +58,19 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         }
 
         return ok({ registered: res, token: 'fake-jwt-token' });
+      }
+
+      if (request.url.endsWith(UserEndpoint.UNREGISTER) && request.method === 'DELETE') {
+        const token = request.body.token;
+        let res = false;
+
+        if (users.find(u => u.token === token)) {
+          users = users.filter(u => u.token !== token);
+
+          res = true;
+        }
+
+        return ok({ registered: res });
       }
 
       // get all users

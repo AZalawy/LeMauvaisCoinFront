@@ -1,3 +1,6 @@
-<p>
-  home works!
-</p>
+<p>home works!</p>
+
+<div *ngFor="let user of (users$ | async)">
+  <span>{{ user.username }} ({{ user.firstName }})</span> <br />
+  <span>{{ user.email }}</span>
+</div>
