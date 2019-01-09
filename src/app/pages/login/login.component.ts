@@ -35,10 +35,11 @@ export class LoginComponent {
       return;
     }
 
-    this.loading = true;
     this.authFacade.login(
       this.formControls.username.value,
       this.formControls.password.value
     );
+
+    this.loading = this.authFacade.currentUserToken$ !== null;
   }
 }

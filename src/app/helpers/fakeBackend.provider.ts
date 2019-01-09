@@ -3,7 +3,9 @@ import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { dematerialize, materialize, mergeMap } from 'rxjs/operators';
 
+import { OfferEndpoint } from '../endpoints/offer.endpoint';
 import { UserEndpoint } from '../endpoints/user.endpoints';
+import { Offer } from '../models/offers';
 import { User } from '../models/user';
 
 @Injectable()
@@ -17,6 +19,14 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       { id: 5, username: 'test5', password: 'test5', firstName: 'Test5', lastName: 'User5', email: 'User5@plop.fr' },
     ];
 
+    const offers: Offer[] = [
+      { id: 1, categories: 'pokémon', title: 'Pikachu', price: 14, description: 'Un pikachu sauvage apparaît' },
+      { id: 2, categories: 'décoration', title: 'plante verte', price: 500, description: 'Un bonzaï de 450 ans' },
+      { id: 3, categories: ['informatique', 'jeu vidéo'], title: 'Call of Star Fifa (Deluxe)', price: 1, description: 'G plu 12 an' },
+      { id: 4, categories: 'extérieur', title: 'Jacuzzi portable', price: 873, description: 'Voilà voilà' },
+      { id: 5, categories: ['sport', 'loisir'], title: 'Surfboard', price: 781, description: 'Une planche de surf' },
+    ];
+
     const authHeader = request.headers.get('Authorization');
     const isLoggedIn = authHeader && authHeader.startsWith('Bearer fake-jwt-token');
 
@@ -25,9 +35,10 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
       // authenticate - public
       if (request.url.endsWith(UserEndpoint.AUTH) && request.method === 'POST') {
-        const user = users.find(x => x.username === request.body.username && x.password === request.body.password);
+        const user = users.find(x => x.username === request.body.id && x.password === request.body.password);
         if (!user) {
-          return error('Username or password is incorrect');
+          console.warn('Username or password is incorrect');
+          return ok(null);
         }
 
         return ok({
@@ -44,7 +55,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         const user = request.body.user as User;
         let res = false;
 
-        if (!users.find(u => u.username === 'biscuit')) {
+        if (!users.find(u => u.username === user.username)) {
           users.push({
             id: len,
             username: user.username,
@@ -67,6 +78,35 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         }
 
         return ok(users);
+      }
+
+      // get all offers
+      if (request.url.endsWith(OfferEndpoint.GET_ALL_OFFERS) && request.method === 'GET') {
+        if (!isLoggedIn) {
+          return unauthorised();
+        }
+
+        return ok(offers);
+      }
+
+      // add offer
+      if (request.url.endsWith(OfferEndpoint.ADD) && request.method === 'POST') {
+        if (!isLoggedIn) {
+          return unauthorised();
+        }
+
+        const len = offers.length + 1;
+        const offer = request.body.offer as Offer;
+
+        offers.push({
+          id: len,
+          categories: offer.categories,
+          title: offer.title,
+          price: offer.price,
+          description: offer.description,
+        });
+
+        return ok({ added: true });
       }
 
       // pass through any requests not handled above

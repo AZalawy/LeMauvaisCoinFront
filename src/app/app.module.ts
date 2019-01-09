@@ -62,7 +62,7 @@ const FACADES = [AuthFacade, UserFacade];
     BrowserModule,
     HttpClientModule,
     ReactiveFormsModule,
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'}),
     StoreModule.forRoot({
       router: routerReducer
     }),
