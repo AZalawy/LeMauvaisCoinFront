@@ -1,17 +1,15 @@
-import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
-import { UserFacade } from 'src/app/facades/user.facade';
-import { User } from 'src/app/models/user';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent {
-  public users$: Observable<User[]>;
+export class HomeComponent implements OnInit {
 
-  constructor(userFacade: UserFacade) {
-    this.users$ = userFacade.getAllUsers();
+  constructor() { }
+
+  ngOnInit() {
   }
+
 }

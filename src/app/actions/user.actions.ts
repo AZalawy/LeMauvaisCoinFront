@@ -4,7 +4,7 @@ import { User } from '../models/user';
 
 export enum UserActions {
   Register = '[User] Register',
-  Unregister = '[User] Unregister'
+  Unregister = '[User] Unregister',
 }
 
 export class Register implements Action {

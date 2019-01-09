@@ -16,8 +16,4 @@ export class UserService {
   public unregister(token: string): Observable<Boolean> {
     return this.http.delete<Boolean>(UserEndpoint.UNREGISTER, { params: { userToken: token } });
   }
-
-  public getAll(): Observable<User[]> {
-    return this.http.get<User[]>(UserEndpoint.GET_ALL_USERS);
-  }
 }
