@@ -5,7 +5,7 @@ import { dematerialize, materialize, mergeMap } from 'rxjs/operators';
 
 import { OfferEndpoint } from '../endpoints/offer.endpoint';
 import { UserEndpoint } from '../endpoints/user.endpoints';
-import { Offer } from '../models/offers';
+import { Offer } from '../models/offer';
 import { User } from '../models/user';
 
 @Injectable()
@@ -21,7 +21,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
     const offers: Offer[] = [
       { id: 1, categories: 'pokémon', title: 'Pikachu', price: 14, description: 'Un pikachu sauvage apparaît' },
-      { id: 2, categories: 'décoration', title: 'plante verte', price: 500, description: 'Un bonzaï de 450 ans' },
+      { id: 2, categories: 'décoration', title: 'Plante verte', price: 500, description: 'Un bonzaï de 450 ans' },
       { id: 3, categories: ['informatique', 'jeu vidéo'], title: 'Call of Star Fifa (Deluxe)', price: 1, description: 'G plu 12 an' },
       { id: 4, categories: 'extérieur', title: 'Jacuzzi portable', price: 873, description: 'Voilà voilà' },
       { id: 5, categories: ['sport', 'loisir'], title: 'Surfboard', price: 781, description: 'Une planche de surf' },

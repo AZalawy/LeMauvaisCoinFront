@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { OfferFacade } from 'src/app/facades/offer.facade';
+import { Offer } from 'src/app/models/offer';
 
 @Component({
   selector: 'app-home',
@@ -6,10 +9,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  offers$: Observable<Offer[]>;
 
-  constructor() { }
+  constructor(private offerFacade: OfferFacade) { }
 
   ngOnInit() {
+    this.offers$ = this.offerFacade.getAll();
   }
 
 }

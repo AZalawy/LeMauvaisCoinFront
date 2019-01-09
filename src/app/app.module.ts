@@ -1,6 +1,8 @@
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatGridListModule } from '@angular/material';
+import { MatCardModule } from '@angular/material/card';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
@@ -11,8 +13,10 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from './../environments/environment';
 import { AppComponent } from './app.component';
 import { AuthEffects } from './effects/auth.effects';
+import { OfferEffects } from './effects/offer.effects';
 import { UserEffects } from './effects/user.effects';
 import { AuthFacade } from './facades/auth.facade';
+import { OfferFacade } from './facades/offer.facade';
 import { UserFacade } from './facades/user.facade';
 import { AuthGuard } from './guards/auth.guard';
 import { fakeBackendProvider } from './helpers/fakeBackend.provider';
@@ -22,7 +26,9 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import * as fromAuth from './reducers/auth.reducer';
 import { AuthService } from './services/auth.service';
+import { OfferService } from './services/offer.service';
 import { UserService } from './services/user.service';
+
 
 const routes: Routes = [
   {
@@ -49,7 +55,7 @@ const routes: Routes = [
   },
 ];
 
-const FACADES = [AuthFacade, UserFacade];
+const FACADES = [AuthFacade, UserFacade, OfferFacade];
 
 @NgModule({
   declarations: [
@@ -62,7 +68,9 @@ const FACADES = [AuthFacade, UserFacade];
     BrowserModule,
     HttpClientModule,
     ReactiveFormsModule,
-    RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'}),
+    MatCardModule,
+    MatGridListModule,
+    RouterModule.forRoot(routes),
     StoreModule.forRoot({
       router: routerReducer
     }),
@@ -71,7 +79,7 @@ const FACADES = [AuthFacade, UserFacade];
       ? []
       : StoreDevtoolsModule.instrument({ name: 'LeMauvaisCoin' }),
     EffectsModule.forRoot([]),
-    EffectsModule.forFeature([AuthEffects, UserEffects]),
+    EffectsModule.forFeature([AuthEffects, UserEffects, OfferEffects]),
     StoreRouterConnectingModule.forRoot()
   ],
   providers: [
@@ -79,6 +87,7 @@ const FACADES = [AuthFacade, UserFacade];
 
     AuthService,
     UserService,
+    OfferService,
 
     ...FACADES,
 
