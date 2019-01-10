@@ -11,8 +11,5 @@ export class AuthService {
 
   public login(username: string, password: string): Observable<User> {
     return this.http.post<User>(UserEndpoint.AUTH, {id: username, password: password});
-    // return of(
-    //   {id: 1, username: 'test', password: 'test', firstName: 'Test',
-    //    lastName: 'User', email: 'User1@plop.fr', token: 'fake-token-bearer'});
   }
 }
