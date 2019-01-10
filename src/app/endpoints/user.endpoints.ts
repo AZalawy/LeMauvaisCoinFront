@@ -1,6 +1,6 @@
 export enum UserEndpoint {
-  AUTH = '/auth',
+  AUTH = 'http://192.168.43.80:3020/auth',
   GET_ALL_USERS = '/users',
-  REGISTER = '/register',
+  REGISTER = 'http://192.168.43.80:3000/creation',
   UNREGISTER = '/unregister',
 }

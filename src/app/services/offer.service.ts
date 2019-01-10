@@ -13,7 +13,9 @@ export class OfferService {
     return this.http.get<Offer[]>(OfferEndpoint.GET_ALL_OFFERS);
   }
 
-  public addOffer(offer: Offer): Observable<Boolean> {
-    return this.http.post<Boolean>(OfferEndpoint.ADD, { offer: offer });
+  public addOffer(offer: Offer): Observable<boolean> {
+    return this.http.post<boolean>(OfferEndpoint.ADD,
+      { name: offer.title, description: offer.description, price: offer.price, seller: offer.seller, category: offer.categories },
+      {headers: {'Content-Type': 'application/json'}});
   }
 }

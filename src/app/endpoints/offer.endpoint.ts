@@ -1,6 +1,6 @@
 export enum OfferEndpoint {
-  ADD = '/offers/add',
-  GET_ALL_OFFERS = '/offers',
+  ADD = 'http://192.168.43.97:3000/offer/add',
+  GET_ALL_OFFERS = 'http://192.168.43.97:3000/offer/all',
   MODIF = '/offers/modif',
   DELETE = '/offers/delete/:id',
 }

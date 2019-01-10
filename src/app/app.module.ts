@@ -1,4 +1,4 @@
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatGridListModule } from '@angular/material';
@@ -13,16 +13,14 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from './../environments/environment';
 import { AppComponent } from './app.component';
 import { AuthEffects } from './effects/auth.effects';
-import { OfferEffects } from './effects/offer.effects';
 import { UserEffects } from './effects/user.effects';
 import { AuthFacade } from './facades/auth.facade';
 import { OfferFacade } from './facades/offer.facade';
 import { UserFacade } from './facades/user.facade';
 import { AuthGuard } from './guards/auth.guard';
-import { fakeBackendProvider } from './helpers/fakeBackend.provider';
-import { JwtInterceptor } from './helpers/jwt.interceptor';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
+import { OfferComponent } from './pages/offer/offer.component';
 import { RegisterComponent } from './pages/register/register.component';
 import * as fromAuth from './reducers/auth.reducer';
 import { AuthService } from './services/auth.service';
@@ -50,6 +48,11 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'offer',
+    component: OfferComponent,
+    canActivate: [AuthGuard],
+  },
+  {
     path: '**',
     redirectTo: '',
   },
@@ -62,7 +65,8 @@ const FACADES = [AuthFacade, UserFacade, OfferFacade];
     AppComponent,
     LoginComponent,
     HomeComponent,
-    RegisterComponent
+    RegisterComponent,
+    OfferComponent
   ],
   imports: [
     BrowserModule,
@@ -79,7 +83,7 @@ const FACADES = [AuthFacade, UserFacade, OfferFacade];
       ? []
       : StoreDevtoolsModule.instrument({ name: 'LeMauvaisCoin' }),
     EffectsModule.forRoot([]),
-    EffectsModule.forFeature([AuthEffects, UserEffects, OfferEffects]),
+    EffectsModule.forFeature([AuthEffects, UserEffects]),
     StoreRouterConnectingModule.forRoot()
   ],
   providers: [
@@ -91,10 +95,10 @@ const FACADES = [AuthFacade, UserFacade, OfferFacade];
 
     ...FACADES,
 
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    // { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
 
     // provider used to create fake backend
-    fakeBackendProvider
+    // fakeBackendProvider
   ],
   bootstrap: [AppComponent]
 })

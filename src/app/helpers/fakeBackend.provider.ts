@@ -20,11 +20,14 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     ];
 
     const offers: Offer[] = [
-      { id: 1, categories: 'pokémon', title: 'Pikachu', price: 14, description: 'Un pikachu sauvage apparaît' },
-      { id: 2, categories: 'décoration', title: 'Plante verte', price: 500, description: 'Un bonzaï de 450 ans' },
-      { id: 3, categories: ['informatique', 'jeu vidéo'], title: 'Call of Star Fifa (Deluxe)', price: 1, description: 'G plu 12 an' },
-      { id: 4, categories: 'extérieur', title: 'Jacuzzi portable', price: 873, description: 'Voilà voilà' },
-      { id: 5, categories: ['sport', 'loisir'], title: 'Surfboard', price: 781, description: 'Une planche de surf' },
+      { id: 1, categories: 'pokémon', title: 'Pikachu', price: 14, description: 'Un pikachu sauvage apparaît', seller: users[4].username },
+      { id: 2, categories: 'décoration',
+      title: 'Plante verte', price: 500, description: 'Un bonzaï de 450 ans', seller: users[1].username },
+      { id: 3, categories: ['informatique', 'jeu vidéo'],
+        title: 'Call of Star Fifa (Deluxe)', price: 1, description: 'G plu 12 an', seller: users[0].username },
+      { id: 4, categories: 'extérieur', title: 'Jacuzzi portable', price: 873, description: 'Voilà voilà', seller: users[3].username },
+      { id: 5, categories: ['sport', 'loisir'],
+      title: 'Surfboard', price: 781, description: 'Une planche de surf', seller: users[2].username },
     ];
 
     const authHeader = request.headers.get('Authorization');
@@ -104,6 +107,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           title: offer.title,
           price: offer.price,
           description: offer.description,
+          seller: offer.seller,
         });
 
         return ok({ added: true });

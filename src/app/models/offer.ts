@@ -4,4 +4,5 @@ export class Offer {
   title: string;
   price: number;
   description: string;
+  seller: string;
 }
