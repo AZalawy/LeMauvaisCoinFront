@@ -10,6 +10,6 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   public login(username: string, password: string): Observable<User> {
-    return this.http.post<User>(UserEndpoint.AUTH, {id: username, password: password});
+    return this.http.post<User>(UserEndpoint.AUTH, {email: username, password: password});
   }
 }

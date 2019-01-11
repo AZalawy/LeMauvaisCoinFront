@@ -1,4 +1,4 @@
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatGridListModule } from '@angular/material';
@@ -19,8 +19,6 @@ import { AuthFacade } from './facades/auth.facade';
 import { OfferFacade } from './facades/offer.facade';
 import { UserFacade } from './facades/user.facade';
 import { AuthGuard } from './guards/auth.guard';
-import { fakeBackendProvider } from './helpers/fakeBackend.provider';
-import { JwtInterceptor } from './helpers/jwt.interceptor';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { OfferComponent } from './pages/offer/offer.component';
@@ -99,10 +97,10 @@ const FACADES = [AuthFacade, UserFacade, OfferFacade];
 
     ...FACADES,
 
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    // { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
 
     // provider used to create fake backend
-    fakeBackendProvider
+    // fakeBackendProvider
   ],
   bootstrap: [AppComponent]
 })

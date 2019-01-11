@@ -31,4 +31,15 @@ export class OfferService {
       { name: offer.title, description: offer.description, price: offer.price, seller: offer.seller, category: offer.categories },
       {headers: {'Content-Type': 'application/json'}});
   }
+
+  public deleteOffer(id: string): Observable<boolean> {
+    console.log(id);
+    return this.http.request<any>(
+      'delete',
+      OfferEndpoint.DELETE,
+      {
+        body: {_id: id},
+        headers: {'Content-Type': 'application/json'}
+      });
+  }
 }

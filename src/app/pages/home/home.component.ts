@@ -17,4 +17,8 @@ export class HomeComponent implements OnInit {
     this.offers$ = this.offerFacade.getAll();
   }
 
+  public deleteOffer(id: string): void {
+    this.offerFacade.delete(id);
+  }
+
 }

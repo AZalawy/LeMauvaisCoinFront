@@ -12,7 +12,7 @@ export class OfferComponent {
   loading = false;
   submitted = false;
 
-  constructor(formBuilder: FormBuilder, private offerFacade: OfferFacade) {
+  constructor(formBuilder: FormBuilder, public offerFacade: OfferFacade) {
     this.offerForm = formBuilder.group({
       title: ['', Validators.required],
       price: ['', [Validators.required, Validators.min(0)]],
