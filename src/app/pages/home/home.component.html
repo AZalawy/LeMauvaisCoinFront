@@ -1,7 +1,4 @@
-<div>
-  <button [routerLink]="['/offer']">Add an offer</button>
-</div>
-<br>
+<app-banner></app-banner>
 <mat-grid-list cols="3" [rowHeight]="250">
   <mat-grid-tile *ngFor="let offer of offers$ | async">
     <mat-card>

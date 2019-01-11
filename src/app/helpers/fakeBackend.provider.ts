@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { dematerialize, materialize, mergeMap } from 'rxjs/operators';
 
-import { OfferEndpoint } from '../endpoints/offer.endpoint';
 import { UserEndpoint } from '../endpoints/user.endpoints';
 import { Offer } from '../models/offer';
 import { User } from '../models/user';
@@ -82,7 +81,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         return ok(users);
       }
-
+/*
       // get all offers
       if (request.url.endsWith(OfferEndpoint.GET_ALL_OFFERS) && request.method === 'GET') {
         if (!isLoggedIn) {
@@ -112,7 +111,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         return ok({ added: true });
       }
-
+*/
       // pass through any requests not handled above
       return next.handle(request);
     }))
